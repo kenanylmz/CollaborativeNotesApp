@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, Modal, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Modal,
+  ScrollView,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {formatDate} from '../../utils';
 import styles from './styles';
@@ -76,22 +83,9 @@ const NoteItem: React.FC<NoteItemProps> = ({
         transparent
         animationType="fade"
         onRequestClose={toggleExpand}>
-        <TouchableOpacity
-          style={styles.modalOverlay}
-          activeOpacity={1}
-          onPress={toggleExpand}>
-          <View
-            style={styles.modalContent}
-            onStartShouldSetResponder={() => true}
-            onTouchEnd={e => e.stopPropagation()}>
-            <ScrollView
-              style={styles.modalScrollView}
-              contentContainerStyle={styles.modalScrollViewContent}
-              showsVerticalScrollIndicator={true}
-              bounces={false}>
-              <Text style={styles.modalText}>{content}</Text>
-            </ScrollView>
-            <View style={styles.modalFooter}>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
               <View style={styles.timestamp}>
                 <Icon
                   name="clock-outline"
@@ -109,8 +103,16 @@ const NoteItem: React.FC<NoteItemProps> = ({
                 <Icon name="close" size={24} color="#666666" />
               </TouchableOpacity>
             </View>
+            <ScrollView
+              style={styles.modalScrollView}
+              contentContainerStyle={styles.modalScrollViewContent}
+              showsVerticalScrollIndicator={true}
+              alwaysBounceVertical={false}
+              overScrollMode="always">
+              <Text style={styles.modalText}>{content}</Text>
+            </ScrollView>
           </View>
-        </TouchableOpacity>
+        </View>
       </Modal>
 
       <CustomAlert

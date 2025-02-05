@@ -65,17 +65,25 @@ export default StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 20,
     width: width * 0.9,
-    maxHeight: height * 0.7,
+    maxHeight: height * 0.8,
     borderLeftWidth: 8,
     borderLeftColor: '#007AFF',
-    overflow: 'hidden',
+    flexDirection: 'column',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
   },
   modalScrollView: {
-    maxHeight: height * 0.6,
-    padding: 20,
+    maxHeight: height * 0.65,
   },
   modalScrollViewContent: {
-    flexGrow: 0,
+    padding: 20,
+    flexGrow: 1,
   },
   modalText: {
     fontSize: 18,
@@ -83,20 +91,10 @@ export default StyleSheet.create({
     lineHeight: 26,
     fontFamily: Platform.OS === 'ios' ? 'System' : 'sans-serif',
   },
-  modalFooter: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderTopWidth: 1,
-    borderTopColor: '#E0E0E0',
-    backgroundColor: '#FFFFFF',
+  modalCloseButton: {
+    padding: 4,
   },
   modalTimestamp: {
     fontSize: 14,
-  },
-  modalCloseButton: {
-    padding: 4,
   },
 });
