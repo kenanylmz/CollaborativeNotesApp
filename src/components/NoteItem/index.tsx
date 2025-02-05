@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, Alert} from 'react-native';
+import {View, Text, TouchableOpacity, Modal, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {formatDate} from '../../utils';
 import styles from './styles';
 import CustomAlert from '../CustomAlert';
@@ -22,16 +21,21 @@ const NoteItem: React.FC<NoteItemProps> = ({
   onEdit,
 }) => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const handleDelete = () => {
     setShowDeleteAlert(true);
+  };
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
   };
 
   return (
     <>
       <TouchableOpacity
         style={styles.container}
-        onPress={onPress}
+        onPress={toggleExpand}
         activeOpacity={0.9}>
         <View style={styles.contentContainer}>
           <Text style={styles.content} numberOfLines={3}>
@@ -66,6 +70,48 @@ const NoteItem: React.FC<NoteItemProps> = ({
           </TouchableOpacity>
         </View>
       </TouchableOpacity>
+
+      <Modal
+        visible={isExpanded}
+        transparent
+        animationType="fade"
+        onRequestClose={toggleExpand}>
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          activeOpacity={1}
+          onPress={toggleExpand}>
+          <View
+            style={styles.modalContent}
+            onStartShouldSetResponder={() => true}
+            onTouchEnd={e => e.stopPropagation()}>
+            <ScrollView
+              style={styles.modalScrollView}
+              contentContainerStyle={styles.modalScrollViewContent}
+              showsVerticalScrollIndicator={true}
+              bounces={false}>
+              <Text style={styles.modalText}>{content}</Text>
+            </ScrollView>
+            <View style={styles.modalFooter}>
+              <View style={styles.timestamp}>
+                <Icon
+                  name="clock-outline"
+                  size={14}
+                  color="#888888"
+                  style={{marginRight: 4}}
+                />
+                <Text style={[styles.timestamp, styles.modalTimestamp]}>
+                  {formatDate(timestamp)}
+                </Text>
+              </View>
+              <TouchableOpacity
+                style={styles.modalCloseButton}
+                onPress={toggleExpand}>
+                <Icon name="close" size={24} color="#666666" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </Modal>
 
       <CustomAlert
         visible={showDeleteAlert}

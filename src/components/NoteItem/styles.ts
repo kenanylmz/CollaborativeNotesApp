@@ -1,4 +1,6 @@
-import {StyleSheet, Platform} from 'react-native';
+import {StyleSheet, Platform, Dimensions} from 'react-native';
+
+const {width, height} = Dimensions.get('window');
 
 export default StyleSheet.create({
   container: {
@@ -51,5 +53,50 @@ export default StyleSheet.create({
   },
   actionButtonIcon: {
     marginLeft: 1,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  modalContent: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    width: width * 0.9,
+    maxHeight: height * 0.7,
+    borderLeftWidth: 8,
+    borderLeftColor: '#007AFF',
+    overflow: 'hidden',
+  },
+  modalScrollView: {
+    maxHeight: height * 0.6,
+    padding: 20,
+  },
+  modalScrollViewContent: {
+    flexGrow: 0,
+  },
+  modalText: {
+    fontSize: 18,
+    color: '#333333',
+    lineHeight: 26,
+    fontFamily: Platform.OS === 'ios' ? 'System' : 'sans-serif',
+  },
+  modalFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderTopWidth: 1,
+    borderTopColor: '#E0E0E0',
+    backgroundColor: '#FFFFFF',
+  },
+  modalTimestamp: {
+    fontSize: 14,
+  },
+  modalCloseButton: {
+    padding: 4,
   },
 });
