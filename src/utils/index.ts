@@ -4,13 +4,15 @@ export const formatDate = (timestamp: number): string => {
 
 export const debounce = <T extends (...args: any[]) => any>(
   func: T,
-  wait: number
+  wait: number,
 ): ((...args: Parameters<T>) => void) => {
-  let timeout: NodeJS.Timeout;
+  let timeout: number;
 
   return (...args: Parameters<T>) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func(...args), wait);
+    if (timeout) {
+      clearTimeout(timeout);
+    }
+    timeout = setTimeout(() => func(...args), wait) as unknown as number;
   };
 };
 
@@ -20,4 +22,4 @@ export const validateNote = (content: string): boolean => {
 
 export const generateUniqueId = (): string => {
   return Math.random().toString(36).substr(2, 9);
-}; 
+};

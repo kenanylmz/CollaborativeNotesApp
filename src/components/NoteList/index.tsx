@@ -1,19 +1,17 @@
 import React from 'react';
-import { FlatList, ListRenderItemInfo, RefreshControl } from 'react-native';
+import {FlatList, ListRenderItemInfo, RefreshControl} from 'react-native';
 import NoteItem from '../NoteItem';
+import {Note} from '../../types';
 import styles from './styles';
-
-interface Note {
-  id: string;
-  content: string;
-  timestamp: number;
-}
+import EmptyState from '../EmptyState';
 
 interface NoteListProps {
   notes: Note[];
   onRefresh?: () => void;
   isRefreshing?: boolean;
   onNotePress?: (note: Note) => void;
+  onNoteDelete?: (noteId: string) => void;
+  onNoteEdit?: (note: Note) => void;
 }
 
 const NoteList: React.FC<NoteListProps> = ({
@@ -21,12 +19,20 @@ const NoteList: React.FC<NoteListProps> = ({
   onRefresh,
   isRefreshing = false,
   onNotePress,
+  onNoteDelete,
+  onNoteEdit,
 }) => {
-  const renderItem = ({ item }: ListRenderItemInfo<Note>) => (
+  if (notes.length === 0) {
+    return <EmptyState />;
+  }
+
+  const renderItem = ({item}: ListRenderItemInfo<Note>) => (
     <NoteItem
       content={item.content}
       timestamp={item.timestamp}
       onPress={() => onNotePress?.(item)}
+      onDelete={() => onNoteDelete?.(item.id)}
+      onEdit={() => onNoteEdit?.(item)}
     />
   );
 
@@ -34,7 +40,7 @@ const NoteList: React.FC<NoteListProps> = ({
     <FlatList
       data={notes}
       renderItem={renderItem}
-      keyExtractor={(item) => item.id}
+      keyExtractor={item => item.id}
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
       showsVerticalScrollIndicator={false}
@@ -51,4 +57,4 @@ const NoteList: React.FC<NoteListProps> = ({
   );
 };
 
-export default NoteList; 
+export default NoteList;

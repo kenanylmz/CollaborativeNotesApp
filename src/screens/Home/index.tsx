@@ -4,36 +4,44 @@ import {
   TextInput,
   TouchableOpacity,
   Text,
-  FlatList,
   SafeAreaView,
   KeyboardAvoidingView,
   Platform,
+  Modal,
 } from 'react-native';
-import {database} from '../../config/firebase';
-import {ref, push, onValue} from '@react-native-firebase/database';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from './styles';
 import NoteList from '../../components/NoteList';
 import {useNotes} from '../../hooks/useNotes';
-import {lightTheme} from '../../styles/theme';
-import {validateNote} from '../../utils';
-
-interface Note {
-  id: string;
-  content: string;
-  timestamp: number;
-}
+import {Note} from '../../types';
 
 const HomeScreen = () => {
   const [noteText, setNoteText] = useState('');
-  const {notes, loading, error, addNote} = useNotes();
+  const [editingNote, setEditingNote] = useState<Note | null>(null);
+  const {notes, addNote, deleteNote, updateNote} = useNotes();
 
   const handleAddNote = async () => {
-    if (validateNote(noteText)) {
+    if (noteText.trim()) {
       const success = await addNote(noteText);
       if (success) {
         setNoteText('');
       }
     }
+  };
+
+  const handleEditNote = async () => {
+    if (editingNote && noteText.trim()) {
+      const success = await updateNote(editingNote.id, noteText);
+      if (success) {
+        setNoteText('');
+        setEditingNote(null);
+      }
+    }
+  };
+
+  const handleNoteEdit = (note: Note) => {
+    setEditingNote(note);
+    setNoteText(note.content);
   };
 
   return (
@@ -42,15 +50,15 @@ const HomeScreen = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.title}>Collaborative Notes</Text>
+          <Text style={styles.title}>
+            <Text style={styles.titleBlue}>Collaborative</Text> Notes
+          </Text>
         </View>
 
         <NoteList
           notes={notes}
-          onNotePress={note => {
-            // İleride not detayı veya düzenleme için kullanılabilir
-            console.log('Note pressed:', note);
-          }}
+          onNoteDelete={deleteNote}
+          onNoteEdit={handleNoteEdit}
         />
 
         <View style={styles.inputContainer}>
@@ -58,11 +66,22 @@ const HomeScreen = () => {
             style={styles.input}
             value={noteText}
             onChangeText={setNoteText}
-            placeholder="Write a note..."
+            placeholder={editingNote ? 'Edit note...' : 'Write a note...'}
             multiline
+            placeholderTextColor="#999"
           />
-          <TouchableOpacity style={styles.addButton} onPress={handleAddNote}>
-            <Text style={styles.addButtonText}>Add Note</Text>
+          <TouchableOpacity
+            style={[
+              styles.addButton,
+              {backgroundColor: editingNote ? '#34C759' : '#007AFF'},
+            ]}
+            onPress={editingNote ? handleEditNote : handleAddNote}>
+            <MaterialCommunityIcons
+              name={editingNote ? 'check' : 'plus'}
+              size={28}
+              color="#FFFFFF"
+              style={styles.addButtonIcon}
+            />
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>

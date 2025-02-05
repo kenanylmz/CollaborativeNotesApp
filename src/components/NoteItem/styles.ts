@@ -1,30 +1,55 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 
 export default StyleSheet.create({
   container: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    marginBottom: 12,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+    borderRadius: 20,
+    marginHorizontal: 16,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    flexDirection: 'row',
+    overflow: 'hidden',
+    borderLeftWidth: 8,
+    borderLeftColor: '#007AFF',
+    minHeight: 120,
   },
   contentContainer: {
-    padding: 16,
+    flex: 1,
+    padding: 24,
   },
   content: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#333333',
-    marginBottom: 8,
-    lineHeight: 22,
+    marginBottom: 16,
+    lineHeight: 26,
+    fontFamily: Platform.OS === 'ios' ? 'System' : 'sans-serif',
   },
   timestamp: {
-    fontSize: 12,
+    fontSize: 14,
     color: '#888888',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-}); 
+  actionsContainer: {
+    padding: 16,
+    justifyContent: 'space-around',
+    backgroundColor: '#F8F8F8',
+    borderLeftWidth: 1,
+    borderLeftColor: '#E0E0E0',
+    width: 72,
+  },
+  actionButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+  },
+  actionButtonIcon: {
+    marginLeft: 1,
+  },
+});

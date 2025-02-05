@@ -1,4 +1,4 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions, Platform} from 'react-native';
 
 const {width} = Dimensions.get('window');
 
@@ -8,16 +8,29 @@ export default StyleSheet.create({
     backgroundColor: '#F5F5F5',
   },
   header: {
-    padding: 16,
+    paddingVertical: 24,
+    paddingHorizontal: 16,
     backgroundColor: '#FFFFFF',
     borderBottomWidth: 1,
     borderBottomColor: '#E0E0E0',
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  headerIcon: {
+    marginRight: 12,
+    backgroundColor: '#007AFF15',
+    padding: 8,
+    borderRadius: 12,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333333',
+    fontSize: 32,
+    fontWeight: Platform.OS === 'ios' ? '800' : 'bold',
+    color: '#1A1A1A',
+    fontFamily: Platform.OS === 'ios' ? 'System' : 'sans-serif-medium',
+    fontStyle: 'italic',
+  },
+  titleBlue: {
+    color: '#007AFF',
   },
   notesList: {
     flex: 1,
@@ -53,24 +66,35 @@ export default StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderTopWidth: 1,
     borderTopColor: '#E0E0E0',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
   },
   input: {
-    backgroundColor: '#F5F5F5',
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 12,
-    minHeight: 80,
+    flex: 1,
+    backgroundColor: '#F8F8F8',
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#E0E0E0',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    marginRight: 12,
+    minHeight: 48,
+    maxHeight: 120,
+    fontSize: 16,
     textAlignVertical: 'top',
+    fontFamily: Platform.OS === 'ios' ? 'System' : 'sans-serif',
   },
   addButton: {
     backgroundColor: '#007AFF',
-    borderRadius: 8,
-    padding: 14,
+    borderRadius: 24,
+    width: 48,
+    height: 48,
+    justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: Platform.OS === 'ios' ? '#0066CC' : 'transparent',
   },
-  addButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
+  addButtonIcon: {
+    marginLeft: 1,
   },
 });
